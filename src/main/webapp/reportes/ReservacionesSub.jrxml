@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="869597d2-5628-4bd7-84ec-371ac42a2704">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+v.idvuelo, v.fecha, o.aeropuerto as origen, d.aeropuerto as destino,
+r.nboletos, v.precio, round(nboletos*precio,2) as subtotal
+from vuelos v, reservaciones r, aeropuertos o, aeropuertos d
+where v.idvuelo=r.idvuelo and o.idaeropuerto=v.idorigen
+ and d.idaeropuerto=v.iddestino and date_format(fecha, '%Y-%m-%d')=$P{fecha}]]>
+	</queryString>
+	<field name="idvuelo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="origen" class="java.lang.String"/>
+	<field name="destino" class="java.lang.String"/>
+	<field name="nboletos" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.math.BigDecimal"/>
+	<variable name="subtotal_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{subtotal}]]></variableExpression>
+	</variable>
+	<variable name="subtotal_2" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{subtotal}]]></variableExpression>
+	</variable>
+	<variable name="subtotal_3" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{subtotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="43" height="20" backcolor="#CCCCCC" uuid="ccf33c0e-56f7-456c-a59f-c618c2b20327"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[idvuelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="43" y="0" width="92" height="20" backcolor="#CCCCCC" uuid="4686914d-8659-4dc1-8db4-d9d00e72b2ec"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="135" y="0" width="92" height="20" backcolor="#CCCCCC" uuid="5202ecf8-059a-431c-aa30-50d86d0ce83f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[origen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="227" y="0" width="92" height="20" backcolor="#CCCCCC" uuid="7b251617-b497-4372-b897-35caf62f2d1e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[destino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="319" y="0" width="47" height="20" backcolor="#CCCCCC" uuid="b86492cf-434f-4ae9-ac2b-7ab8c38a833e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[nboletos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="366" y="0" width="92" height="20" backcolor="#CCCCCC" uuid="bb0bc13e-31d8-4f24-9a20-d9e86adf6af4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="458" y="0" width="97" height="20" uuid="6858ae70-ca4d-4a76-b6ba-29c92d4c8ad4"/>
+				<text><![CDATA[subtotal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="43" height="20" uuid="a8684042-4bdf-4f9f-8282-6c3b651bff5e"/>
+				<textFieldExpression><![CDATA[$F{idvuelo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="43" y="0" width="92" height="20" uuid="2a5f461b-73db-4133-9626-ae08adfe580b"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="0" width="92" height="20" uuid="51aff872-551f-4035-82a9-5a5020d190ca"/>
+				<textFieldExpression><![CDATA[$F{origen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="0" width="92" height="20" uuid="62d2c72f-2568-4622-bb29-fbff4da2a3a5"/>
+				<textFieldExpression><![CDATA[$F{destino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="0" width="47" height="20" uuid="b77b708d-93cb-46e4-8120-e60a63751532"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nboletos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #0.00">
+				<reportElement x="366" y="0" width="92" height="20" uuid="f000fd75-a9df-408a-aa9d-0d6f49df2cf0"/>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="458" y="0" width="74" height="20" uuid="b552d470-7574-4e96-978d-cf3de3bdc8ad"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="458" y="0" width="74" height="20" uuid="57380a35-95ab-43ad-be3c-8a9b16d0735c"/>
+				<textFieldExpression><![CDATA[$V{subtotal_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="361" y="0" width="97" height="20" uuid="cdfe7eee-de69-4364-8abe-8dcae723b7ee"/>
+				<text><![CDATA[subtotal]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

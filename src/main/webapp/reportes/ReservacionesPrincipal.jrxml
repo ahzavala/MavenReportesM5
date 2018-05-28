@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ff337874-ee74-4081-a07a-b7dcc915f1a8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="20"/>
+	<parameter name="fecha1" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2016")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha2" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").parse("31-12-2017")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Users/Alvaro/NetBeansProjects/MavenReportesM5/src/main/webapp/reportes/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct v.fecha from vuelos v, reservaciones r
+where v.idvuelo=r.idvuelo and v.fecha between $P{fecha1} and $P{fecha2}]]>
+	</queryString>
+	<field name="fecha" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="totalGeneral" class="java.lang.Double" calculation="Sum"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="62" y="20" width="165" height="20" uuid="0d3a947c-ba7c-4f3c-a31c-e43a06b0c8c7"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aerolinea Project]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="43" width="194" height="20" forecolor="#666666" uuid="87cc431a-231f-4cef-9055-242492358f01"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[A Project for Learning]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy h:mm a">
+				<reportElement x="382" y="0" width="173" height="20" uuid="3f158e9a-f4e7-4273-b5cf-0d001a01b642"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="427" y="20" width="128" height="51" uuid="800856b8-15a4-4f92-89df-96ff79bc9fe1"/>
+				<imageExpression><![CDATA["plane-01.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="21" width="555" height="1" uuid="9bef9c89-b5c4-4c3b-a06d-a0fd483deafb"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="62" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="131" y="0" width="424" height="20" uuid="b56f21cb-15bc-44d7-a1a3-5728833c1a18"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="131" height="20" backcolor="#CC99FF" uuid="46afac4e-0ee7-418d-81c9-8302a056809a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="42" uuid="6a29ca2f-6c28-4d0b-9aeb-b2f200a77cbd"/>
+				<subreportParameter name="fecha">
+					<subreportParameterExpression><![CDATA[$F{fecha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="subtotal_1" toVariable="totalGeneral" calculation="Sum"/>
+				<subreportExpression><![CDATA["ReservacionesSub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="d9085141-cadb-41da-abc9-31ca898a5437"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="74a3827e-e159-4e3f-80e6-fd5bcfdd0744"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="25" width="555" height="25" uuid="45e89ce5-51f3-479a-8c78-79a7413a3006"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[UNIVERSIDAD DON BOSCO
+CENTRO DE ESTUDIOS DE POSTGRADO]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="c4da0f18-1eab-458a-84d4-1aa2c0e49ef1"/>
+				<textFieldExpression><![CDATA[$V{totalGeneral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="0" width="100" height="20" uuid="e6b88bf2-eb3c-4389-9c6f-b9c053921301"/>
+				<text><![CDATA[Total General]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

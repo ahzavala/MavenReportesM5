@@ -12,6 +12,9 @@
 	<parameter name="estado" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="fechas3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select v.idvuelo,
 o.aeropuerto as origen,
@@ -20,7 +23,7 @@ v.fecha as fecha_hora_salida,
 v.estado,
 a.descripcion as avion
 from aviones a, aeropuertos o, aeropuertos d, vuelos v
-where a.idavion = v.idavion and v.fecha between $P{fecha1} and $P{fecha2} and $P!{estado} and
+where a.idavion = v.idavion $P!{fechas3} $P!{estado} and
 o.idaeropuerto=v.idorigen and d.idaeropuerto=v.iddestino]]>
 	</queryString>
 	<field name="idvuelo" class="java.lang.Long">

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f71d7a22-db95-482d-b467-4c5e07abc4f1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select 
+concat(v.idvuelo,"-",o.aeropuerto) as idvuelo,
+sum(nboletos) as reservados,
+a.capacidad-(sum(nboletos)) as disponibles,
+a.capacidad
+from
+reservaciones r, vuelos v, aviones a, aeropuertos o
+where r.idvuelo = v.idvuelo 
+and a.idavion = v.idavion 
+and o.idaeropuerto=v.idorigen
+group by v.idvuelo;]]>
+	</queryString>
+	<field name="idvuelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reservados" class="java.math.BigDecimal"/>
+	<field name="disponibles" class="java.math.BigDecimal"/>
+	<field name="capacidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="228" y="2" width="100" height="20" uuid="8d7634c7-e4be-45c8-a0e9-f09a7fdbf2d8"/>
+				<text><![CDATA[Graficos de IReport]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="20" uuid="96ed736d-fa7e-402a-9706-8db693d4b257"/>
+				<text><![CDATA[idvuelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="112" height="20" uuid="a24eb844-58a7-40e1-bf31-f268c622fa29"/>
+				<text><![CDATA[reservados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="1" width="128" height="20" uuid="55255c2b-2ec5-4d9a-82f4-8c337a559b2c"/>
+				<text><![CDATA[disponibles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="1" width="100" height="20" uuid="27a45aec-6c9d-445b-adb6-ae84c0925b98"/>
+				<text><![CDATA[capacidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="20" uuid="e8c0b9ba-b95c-4e9f-b78d-6f4502e09037"/>
+				<textFieldExpression><![CDATA[$F{idvuelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="112" height="20" uuid="f18cdf95-1f0d-4ebe-8d76-12e495124701"/>
+				<textFieldExpression><![CDATA[$F{reservados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="0" width="100" height="20" uuid="6c6b44db-53e6-4192-a036-e1522062faa6"/>
+				<textFieldExpression><![CDATA[$F{capacidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="0" width="128" height="20" uuid="a6062c6c-e7b3-4fcb-9d19-e0610f651f8b"/>
+				<textFieldExpression><![CDATA[$F{disponibles}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="268" splitType="Stretch">
+			<pie3DChart>
+				<chart isShowLegend="true" theme="eye.candy.sixties">
+					<reportElement x="0" y="0" width="90" height="49" uuid="2904820f-1d1f-451e-ae41-741100845df5"/>
+					<chartTitle>
+						<font size="14" isBold="true"/>
+						<titleExpression><![CDATA["Reporte de boletos reservados"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{idvuelo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{reservados}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" labelFormat="{1} ({2})">
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<bar3DChart>
+				<chart theme="eye.candy.sixties">
+					<reportElement x="0" y="49" width="90" height="48" uuid="ad340e54-43a3-45a1-8021-8efc63a6a165"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Reservados"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reservados}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Disponibles"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{disponibles}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="0.0"/>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["Vuelos"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["No Boletos"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="97" width="90" height="46" uuid="31879b67-3962-48cf-adfd-94cf040648eb"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Reservados"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reservados}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Disponibles"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{disponibles}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<areaChart>
+				<chart>
+					<reportElement x="0" y="143" width="90" height="57" uuid="568ef9ca-8421-46f2-b785-84fe3a6be5fc"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Disponibles"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{disponibles}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Reservados"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{reservados}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</areaPlot>
+			</areaChart>
+			<componentElement>
+				<reportElement x="94" y="0" width="461" height="268" uuid="1ae4dfb5-8794-49a4-be9b-2f3b21b1896a"/>
+				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<sc:chartSettings>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</sc:chartSettings>
+					<sc:spiderDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Reservados"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{reservados}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA["capacidad"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{idvuelo}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{capacidad}]]></valueExpression>
+						</categorySeries>
+					</sc:spiderDataset>
+					<sc:spiderPlot isWebFilled="true"/>
+				</sc:spiderChart>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
